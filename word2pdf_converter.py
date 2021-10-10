@@ -31,7 +31,7 @@ def word2pdf_converter(file):
     word.Quit()
 
 
-if len(sys.argv) > 1:  # this means that the user introduced file paths
+if len(sys.argv) > 1:  # this means the user introduced file paths
     for file in sys.argv:
         if file.endswith(".docx") or file.endswith(".docx"):
             word2pdf_converter(file)
