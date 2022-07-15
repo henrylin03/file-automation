@@ -7,17 +7,25 @@ files_folder = os.path.join(current_folder, "files")
 
 
 def create_test_files(folder=files_folder, file_count=10):
-    print(f"Creating {file_count} test files...")
+    print("Press any key to create test files. Type 'skip' if you would like to skip.")
+    test_input = input()
 
-    for i in range(file_count):
-        file_name = f"test{i+1}.txt"
-        print(f"Creating {file_name}...")
+    if test_input.lower() == "skip":
+        pass
+    else:
+        print(f"Creating {file_count} test files...")
 
-        with open(os.path.join(folder, file_name), "w+") as fp:
-            fp.write(f"This is a test file. This is test file {i+1} of {file_count}.")
-            fp.close()
+        for i in range(file_count):
+            file_name = f"test{i+1}.txt"
+            print(f"Creating {file_name}...")
 
-        print("Done!")
+            with open(os.path.join(folder, file_name), "w+") as fp:
+                fp.write(
+                    f"This is a test file. This is test file {i+1} of {file_count}."
+                )
+                fp.close()
+
+            print("Done!")
 
 
 def add_prefix(folder=files_folder):
@@ -34,24 +42,26 @@ def add_prefix(folder=files_folder):
 
 
 def delete_old_files(folder=files_folder):
-    print(
-        "We have now renamed your files. Would you like to delete your previous files? (Y/N)"
-    )
-    delete_response = input()
+    while True:
+        print(
+            "We have now renamed your files. Would you like to delete your previous files? (Y/N)"
+        )
+        delete_response = input()
 
-    if delete_response.lower() == "yes" or delete_response.lower() == "y":
-        print("deleting...")
-    else:
-        print("no worries!")
+        if delete_response.lower() == "yes" or delete_response.lower() == "y":
+            print("Deleting previous files...")
+            break
+        elif delete_response.lower() == "no" or delete_response.lower() == "n":
+            print("Previous files are kept in the same folder")
+            break
+        else:
+            print("Sorry, I did not understand. Please try again.")
 
 
 def main():
-    ### comment out the `create_test_files()` function if you do not need to create test files ###
-    # create_test_files()
+    create_test_files()
     # print(f"Please place all files in: {folder}.")
     add_prefix()
-    delete_old_files()
-    # print(os.path.dirname(__file__))
 
 
 main()
