@@ -28,7 +28,7 @@ def create_test_files(folder=files_folder, file_count=10):
             print("Done!")
 
 
-def add_prefix(folder=files_folder):
+def add_prefix(folder=current_folder):
     print("Please enter the prefix to be added to the files: ")
     prefix = input()
     print("Please enter the pattern of files that will have this prefix (eg *.txt): ")
@@ -41,6 +41,7 @@ def add_prefix(folder=files_folder):
     print("Done!")
 
 
+### this function is incomplete - may need to alter the add_prefix function to create a copy instead
 def delete_old_files(folder=files_folder):
     while True:
         print(
@@ -61,7 +62,8 @@ def delete_old_files(folder=files_folder):
 def main():
     create_test_files()
     # print(f"Please place all files in: {folder}.")
-    add_prefix()
+    add_prefix(files_folder)
 
 
-main()
+if __name__ == "__main__":
+    main()
