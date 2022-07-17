@@ -20,7 +20,7 @@ def backup_files(files_list, folder=current_folder):
     print("Done!")
 
 
-### this function is incomplete - may need to alter the add_prefix function to create a copy instead
+### need to debug PermissionError, and have argument for list of files to be deleted (should only be the ones that were backed up in this particular round)
 def delete_backup_files(folder=backup_folder):
     while True:
         print(
