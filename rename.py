@@ -20,18 +20,19 @@ def backup_files(files_list, folder=current_folder):
     print("Done!")
 
 
-def delete_backup_files(folder=backup_folder):
+def delete_backup_files():
     while True:
         delete_response = input(
             "We have now renamed your files. Would you like to delete your previous files? (Y/N)"
         )
-
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
             print("Deleting previous files...")
-            backup_files = glob(folder)
+            backup_files = glob(os.path.join(backup_folder, "*.*"))
             for f in backup_files:
-                print(f"\tDeleting {f}")
+                f_name = f.rsplit("\\", 1)[-1]
+                print(f"\tDeleting {f_name}...")
                 os.remove(f)
+                print("Done!")
             break
         elif delete_response.lower() == "no" or delete_response.lower() == "n":
             print("Previous files are kept in the /prev_files folder.")
@@ -40,15 +41,15 @@ def delete_backup_files(folder=backup_folder):
             print("Sorry, I did not understand. Please try again.\n")
 
 
-def add_prefix(folder=current_folder):
+def add_prefix():
     print("Please enter the prefix to be added to the files: ")
     prefix = input()
     print("Please enter the pattern of files that will have this prefix (eg *.txt): ")
     pattern = input()
 
-    os.chdir(folder)
+    os.chdir(current_folder)
 
-    backup_files(glob(pattern), folder)
+    backup_files(glob(pattern), current_folder)
 
     print(f"Adding prefix '{prefix}' to all files...")
     [os.rename(f, f"{prefix}{f}") for f in glob(pattern)]
