@@ -54,7 +54,6 @@ def add_prefix():
     print(f"Adding prefix '{prefix}' to all files...")
     [os.rename(f, f"{prefix}{f}") for f in glob(pattern)]
     print("Done!")
-    ## need to add debugging for "File already exists error" when the final, renamed file already exists!
 
 
 def create_test_files(folder=test_files_folder, file_count=10):
