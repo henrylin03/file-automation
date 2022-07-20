@@ -20,20 +20,18 @@ def backup_files(files_list, folder=current_folder):
     print("Done!")
 
 
-### need to debug PermissionError, and have argument for list of files to be deleted (should only be the ones that were backed up in this particular round)
 def delete_backup_files(folder=backup_folder):
     while True:
-        print(
+        delete_response = input(
             "We have now renamed your files. Would you like to delete your previous files? (Y/N)"
         )
-        delete_response = input()
 
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
             print("Deleting previous files...")
             backup_files = glob(folder)
             for f in backup_files:
+                print(f"\tDeleting {f}")
                 os.remove(f)
-            ## need to debug "PermissionError [WinError5]" - I think this is if you have the folder open!
             break
         elif delete_response.lower() == "no" or delete_response.lower() == "n":
             print("Previous files are kept in the /prev_files folder.")
@@ -59,12 +57,15 @@ def add_prefix(folder=current_folder):
 
 
 def create_test_files(folder=test_files_folder, file_count=10):
-    print("Press any key to create test files. Type 'skip' if you would like to skip.")
-    test_input = input()
+    test_input = input(
+        "Press any key to create test files. Type 'skip' if you would like to skip."
+    )
 
     if test_input.lower() == "skip":
         pass
     else:
+        Path(folder).mkdir(parents=True, exist_ok=True)
+
         print(f"Creating {file_count} test files...")
 
         for i in range(file_count):
@@ -81,7 +82,7 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 
 def main():
-    print("Press any key to begin!")
+    input("Press any key to begin!\n")
     create_test_files()  ## need to consider how to ensure that code is used for prod differently than if it were to be used for testing -- we don't really even need this function in main() then!
     # print(f"Please place all files in: {folder}.")
     add_prefix(test_files_folder)
