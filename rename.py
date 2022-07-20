@@ -23,7 +23,7 @@ def backup_files(files_list, folder=current_folder):
 def delete_backup_files():
     while True:
         delete_response = input(
-            "We have now renamed your files. Would you like to delete your previous files? (Y/N)"
+            "We have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
         )
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
             print("Deleting previous files...")
@@ -59,7 +59,7 @@ def add_prefix():
 
 def create_test_files(folder=test_files_folder, file_count=10):
     test_input = input(
-        "Press any key to create test files. Type 'skip' if you would like to skip."
+        "Press any key to create test files. Type 'skip' if you would like to skip.\n"
     )
 
     if test_input.lower() == "skip":
