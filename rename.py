@@ -45,7 +45,7 @@ def add_prefix():
     print("Please enter the prefix to be added to the files: ")
     prefix = input()
     print("Please enter the pattern of files that will have this prefix (eg *.txt): ")
-    pattern = input()
+    pattern = input()  ## what if I just want to apply to all files!
 
     os.chdir(current_folder)
 
@@ -83,8 +83,7 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 def main():
     input("Press any key to begin!\n")
-    create_test_files()  ## need to consider how to ensure that code is used for prod differently than if it were to be used for testing -- we don't really even need this function in main() then!
-    # print(f"Please place all files in: {folder}.")
+    create_test_files()
     add_prefix(test_files_folder)
     delete_backup_files()
 
