@@ -5,7 +5,7 @@ import shutil
 
 current_folder = os.path.dirname(__file__)
 backup_folder = os.path.join(current_folder, "prev_files")
-test_files_folder = os.path.join(current_folder, "files")
+test_files_folder = os.path.join(current_folder, "test_files")
 
 
 def backup_files(files_list, folder=current_folder):

@@ -27,7 +27,7 @@ For example,
 Other than the wildcard (`*`), Rename supports all regular expressions (regex). Please see the [regex cheatsheet](https://cheatography.com/davechild/cheat-sheets/regular-expressions/) for more information.
 
 ### Testing
-If you don't have any specific files to rename yet and just want to test the code, you can use the `create_test_files()` function to generate test .txt files in a `/files` folder for you to manipulate.
+If you don't have any specific files to rename yet and just want to test the code, you can use the `create_test_files()` function to generate test .txt files in a `/test_files` folder for you to manipulate.
 
 ## Issues/Questions/Enhancements?
 If you have any questions, experienced any issues, and/or have any suggestions for enhancements, please raise a GitHub Issue and tag it. Thank you for your support!
