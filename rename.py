@@ -1,20 +1,30 @@
 import os
+import time
 from glob import glob
 from pathlib import Path
 import shutil
 
-current_folder = os.path.dirname(__file__)
-backup_folder = os.path.join(current_folder, "prev_files")
-test_files_folder = os.path.join(current_folder, "test_files")
+main_folder = os.path.dirname(__file__)
+backup_parent_folder = os.path.join(main_folder, "prev_files")
+test_files_folder = os.path.join(main_folder, "test_files")
 
 
-def backup_files(files_list, folder=current_folder):
-    print("Backing up current files to the /prev_files folder...")
+def backup_files(files_folder=main_folder):
+    datetime_suffix = time.strftime("%Y%m%d-%H%M")
+    backup_folder_name = "/prev_files" + "f/{datetime_suffix}"
+    backup_folder = os.path.join(backup_parent_folder, datetime_suffix)
+    files_list = next(os.walk(files_folder), (None, None, []))[2]
+
+    print(f"Backing up all files to {backup_folder_name}...")
+
     Path(backup_folder).mkdir(parents=True, exist_ok=True)
     for f in files_list:
-        source = os.path.join(folder, f)
+        source = os.path.join(files_folder, f)
         shutil.copy2(source, backup_folder)
-    print("Done!")
+    print(f"\t{len(files_list)} files backed up!")
+
+    backed_up_files = [os.path.join(backup_folder, f) for f in files_list]
+    return backed_up_files
 
 
 def delete_backup_files():
@@ -24,7 +34,7 @@ def delete_backup_files():
         )
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
             print("Deleting previous files...")
-            backup_files = glob(os.path.join(backup_folder, "*.*"))
+            backup_files = glob(os.path.join(backup_parent_folder, "*.*"))
             for f in backup_files:
                 f_name = f.rsplit("\\", 1)[-1]
                 print(f"\tDeleting {f_name}...")
@@ -38,19 +48,21 @@ def delete_backup_files():
             print("Sorry, I did not understand. Please try again.\n")
 
 
-def add_prefix():
+def add_prefix(files_folder=main_folder):
     print("Please enter the prefix to be added to the files: ")
     prefix = input()
     print("Please enter the pattern of files that will have this prefix (eg *.txt): ")
     pattern = input()  ## what if I just want to apply to all files!
 
-    os.chdir(current_folder)
+    os.chdir(files_folder)
 
-    backup_files(glob(pattern), current_folder)
+    backup_files(files_folder)
 
     print(f"Adding prefix '{prefix}' to all files...")
+
     [os.rename(f, f"{prefix}{f}") for f in glob(pattern)]
-    print("Done!")
+
+    print("\tDone!")
 
 
 def create_test_files(folder=test_files_folder, file_count=10):
@@ -80,8 +92,8 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 def main():
     input("Press any key to begin!\n")
-    # create_test_files()
-    add_prefix()
+    create_test_files()
+    add_prefix(test_files_folder)
     delete_backup_files()
 
 
