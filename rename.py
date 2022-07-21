@@ -37,27 +37,27 @@ def delete_backup_files(backup_folder):
             "We have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
         )
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
-            print("Deleting previous files...")
+            print("\nDeleting previous files...")
             shutil.rmtree(backup_folder)
             print(f"\tDeleted {backup_files_count} files in {backup_folder_name}")
             break
         elif delete_response.lower() == "no" or delete_response.lower() == "n":
-            print("Previous files are kept in the backup folder.")
+            print("\nPrevious files are kept in the backup folder.")
             break
         else:
-            print("Sorry, I did not understand. Please try again.\n")
+            print("\nSorry, I did not understand. Please try again.\n")
 
 
 def add_prefix(files_folder=main_folder):
     print("Please enter the prefix to be added to the files: ")
     prefix = input()
-    print("Please enter the pattern of files that will have this prefix (eg *.txt): ")
+    print("\nPlease enter the pattern of files that will have this prefix (eg *.txt): ")
     pattern = input()  ## what if I just want to apply to all files!
 
     os.chdir(files_folder)
     backup_folder = backup_files(files_folder)
 
-    print(f"Adding prefix '{prefix}' to all files...")
+    print(f"\nAdding prefix '{prefix}' to files...")
     [os.rename(f, f"{prefix}{f}") for f in glob(pattern)]
     print("\tDone!")
 
@@ -66,7 +66,7 @@ def add_prefix(files_folder=main_folder):
 
 def create_test_files(folder=test_files_folder, file_count=10):
     test_input = input(
-        "Press any key to create test files. Type 'skip' if you would like to skip.\n"
+        "\nPress enter to create test files. Type 'skip' if you would like to skip.\n"
     )
 
     if test_input.lower() == "skip":
@@ -74,7 +74,7 @@ def create_test_files(folder=test_files_folder, file_count=10):
     else:
         Path(folder).mkdir(parents=True, exist_ok=True)
 
-        print(f"Creating {file_count} test files...")
+        print(f"\nCreating {file_count} test files...")
 
         for i in range(file_count):
             file_name = f"test{i+1}.txt"
@@ -90,7 +90,7 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 
 def main():
-    input("Press any key to begin!\n")
+    input("Press enter to begin!")
     create_test_files()
     add_prefix(test_files_folder)
 
