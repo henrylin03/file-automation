@@ -10,7 +10,7 @@ test_files_folder = os.path.join(main_folder, "test_files")
 
 
 def backup_files(files_folder=main_folder):
-    datetime_suffix = time.strftime("%Y%m%d-%H%M")
+    datetime_suffix = time.strftime("%Y%m%d-%H%M%S")
     backup_folder_name = "/prev_files" + "f/{datetime_suffix}"
     backup_folder = os.path.join(backup_parent_folder, datetime_suffix)
     files_list = next(os.walk(files_folder), (None, None, []))[2]
