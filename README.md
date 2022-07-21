@@ -3,7 +3,6 @@ Python app to quickly rename files in a folder.
 
 Currently, **Rename** supports renaming specified files in a folder, including:
 - Adding a prefix
-- Removing a prefix
 
 ## How to Use
 1. Download `rename.py` and place in folder with the files you want to rename.
