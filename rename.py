@@ -10,13 +10,10 @@ test_files_folder = os.path.join(current_folder, "test_files")
 
 def backup_files(files_list, folder=current_folder):
     print("Backing up current files to the /prev_files folder...")
-
     Path(backup_folder).mkdir(parents=True, exist_ok=True)
-
-    destination = backup_folder
     for f in files_list:
         source = os.path.join(folder, f)
-        shutil.copy2(source, destination)
+        shutil.copy2(source, backup_folder)
     print("Done!")
 
 
@@ -83,8 +80,8 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 def main():
     input("Press any key to begin!\n")
-    create_test_files()
-    add_prefix(test_files_folder)
+    # create_test_files()
+    add_prefix()
     delete_backup_files()
 
 
