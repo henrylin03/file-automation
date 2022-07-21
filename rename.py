@@ -11,11 +11,11 @@ test_files_folder = os.path.join(main_folder, "test_files")
 
 def backup_files(files_folder=main_folder):
     datetime_suffix = time.strftime("%Y%m%d-%H%M%S")
-    backup_folder_name = "/prev_files" + "f/{datetime_suffix}"
     backup_folder = os.path.join(backup_parent_folder, datetime_suffix)
+    backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
     files_list = next(os.walk(files_folder), (None, None, []))[2]
 
-    print(f"Backing up all files to {backup_folder_name}...")
+    print(f"Backing up all files to '{backup_folder_name}'...")
 
     Path(backup_folder).mkdir(parents=True, exist_ok=True)
     for f in files_list:
@@ -23,26 +23,26 @@ def backup_files(files_folder=main_folder):
         shutil.copy2(source, backup_folder)
     print(f"\t{len(files_list)} files backed up!")
 
-    backed_up_files = [os.path.join(backup_folder, f) for f in files_list]
-    return backed_up_files
+    return backup_folder
 
 
-def delete_backup_files():
+def delete_backup_files(backup_folder):
+    backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
+    backup_files_count = len(
+        [f for f in os.listdir(backup_folder) if os.path.isfile(f)]
+    )
+
     while True:
         delete_response = input(
             "We have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
         )
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
             print("Deleting previous files...")
-            backup_files = glob(os.path.join(backup_parent_folder, "*.*"))
-            for f in backup_files:
-                f_name = f.rsplit("\\", 1)[-1]
-                print(f"\tDeleting {f_name}...")
-                os.remove(f)
-                print("Done!")
+            shutil.rmtree(backup_folder)
+            print(f"\tDeleted {backup_files_count} files in {backup_folder_name}")
             break
         elif delete_response.lower() == "no" or delete_response.lower() == "n":
-            print("Previous files are kept in the /prev_files folder.")
+            print("Previous files are kept in the backup folder.")
             break
         else:
             print("Sorry, I did not understand. Please try again.\n")
@@ -55,14 +55,13 @@ def add_prefix(files_folder=main_folder):
     pattern = input()  ## what if I just want to apply to all files!
 
     os.chdir(files_folder)
-
-    backup_files(files_folder)
+    backup_folder = backup_files(files_folder)
 
     print(f"Adding prefix '{prefix}' to all files...")
-
     [os.rename(f, f"{prefix}{f}") for f in glob(pattern)]
-
     print("\tDone!")
+
+    delete_backup_files(backup_folder)
 
 
 def create_test_files(folder=test_files_folder, file_count=10):
@@ -94,7 +93,6 @@ def main():
     input("Press any key to begin!\n")
     create_test_files()
     add_prefix(test_files_folder)
-    delete_backup_files()
 
 
 if __name__ == "__main__":
