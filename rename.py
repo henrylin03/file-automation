@@ -4,12 +4,12 @@ from glob import glob
 from pathlib import Path
 import shutil
 
-main_folder = os.path.dirname(__file__)
-backup_parent_folder = os.path.join(main_folder, "prev_files")
-test_files_folder = os.path.join(main_folder, "test_files")
+cwd = os.path.dirname(__file__)
+backup_parent_folder = os.path.join(cwd, "prev_files")
+test_files_folder = os.path.join(cwd, "test_files")
 
 
-def backup_files(files_folder=main_folder):
+def backup_files(files_folder=cwd):
     datetime_suffix = time.strftime("%Y%m%d-%H%M%S")
     backup_folder = os.path.join(backup_parent_folder, datetime_suffix)
     backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
@@ -48,7 +48,7 @@ def delete_backup_files(backup_folder):
             print("\nSorry, I did not understand. Please try again.\n")
 
 
-def add_prefix(files_folder=main_folder):
+def add_prefix(files_folder=cwd):
     print("Please enter the prefix to be added to the files: ")
     prefix = input()
     print("\nPlease enter the pattern of files that will have this prefix (eg *.txt): ")
