@@ -15,13 +15,13 @@ def backup_files(files_folder=cwd):
     backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
     files_list = next(os.walk(files_folder), (None, None, []))[2]
 
-    print(f"Backing up all files to '{backup_folder_name}'...")
+    print(f"\nBacking up all files to '{backup_folder_name}'...")
 
     Path(backup_folder).mkdir(parents=True, exist_ok=True)
     for f in files_list:
         source = os.path.join(files_folder, f)
         shutil.copy2(source, backup_folder)
-    print(f"\t{len(files_list)} files backed up!")
+    print(f"\n\t{len(files_list)} files backed up!")
 
     return backup_folder
 
@@ -64,6 +64,20 @@ def add_prefix(files_folder=cwd):
     delete_backup_files(backup_folder)
 
 
+def del_prefix(files_folder=cwd):
+    prefix = input("Please enter the prefix to be removed from the files: ")
+
+    os.chdir(files_folder)
+    backup_folder = backup_files(files_folder)
+
+    print(f"\nRemoving prefix '{prefix}' from files...")
+    files_list = next(os.walk(files_folder), (None, None, []))[2]
+    [os.rename(f, f.removeprefix(prefix)) for f in files_list]
+    print("\tDone!")
+
+    delete_backup_files(backup_folder)
+
+
 def create_test_files(folder=test_files_folder, file_count=10):
     test_input = input(
         "\nPress enter to create test files. Type 'skip' if you would like to skip.\n"
@@ -92,7 +106,8 @@ def create_test_files(folder=test_files_folder, file_count=10):
 def main():
     input("Press enter to begin!")
     create_test_files()
-    add_prefix(test_files_folder)
+    # add_prefix(test_files_folder)
+    del_prefix(test_files_folder)
 
 
 if __name__ == "__main__":
