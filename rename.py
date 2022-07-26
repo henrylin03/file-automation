@@ -34,7 +34,7 @@ def delete_backup_files(backup_folder):
 
     while True:
         delete_response = input(
-            "We have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
+            "\nWe have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
         )
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
             print("\nDeleting previous files...")
@@ -48,8 +48,30 @@ def delete_backup_files(backup_folder):
             print("\nSorry, I did not understand. Please try again.\n")
 
 
+def prefix_triage(files_folder=cwd):
+    while True:
+        prefix_choice = input(
+            """
+Are you looking to:
+(a) add a prefix to files
+(b) remove a prefix from files
+(c) quit Rename\n
+"""
+        )
+        add_choices = ["(a)", "a", "add"]
+        remove_choices = ["(b)", "b", "remove"]
+        quit_choices = ["(c)", "c", "quit"]
+
+        if prefix_choice.lower() in add_choices:
+            add_prefix(files_folder)
+        if prefix_choice.lower() in remove_choices:
+            del_prefix(files_folder)
+        if prefix_choice.lower() in quit_choices:
+            break
+
+
 def add_prefix(files_folder=cwd):
-    print("Please enter the prefix to be added to the files: ")
+    print("\nPlease enter the prefix to be added to the files: ")
     prefix = input()
     print("\nPlease enter the pattern of files that will have this prefix (eg *.txt): ")
     pattern = input()  ## what if I just want to apply to all files!
@@ -65,7 +87,7 @@ def add_prefix(files_folder=cwd):
 
 
 def del_prefix(files_folder=cwd):
-    prefix = input("Please enter the prefix to be removed from the files: ")
+    prefix = input("\nPlease enter the prefix to be removed from the files: ")
 
     os.chdir(files_folder)
     backup_folder = backup_files(files_folder)
@@ -104,10 +126,10 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 
 def main():
-    input("Welcome to Rename!\nPress enter to begin")
+    start_input = input("\nWelcome to Rename!\nPress enter to begin")
+    # if start_input == "test":
     create_test_files()
-    # add_prefix(test_files_folder)
-    del_prefix(test_files_folder)
+    prefix_triage(test_files_folder)
 
 
 if __name__ == "__main__":
