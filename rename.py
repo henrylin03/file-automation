@@ -104,7 +104,7 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 
 def main():
-    input("Press enter to begin!")
+    input("Welcome to Rename!\nPress enter to begin")
     create_test_files()
     # add_prefix(test_files_folder)
     del_prefix(test_files_folder)
