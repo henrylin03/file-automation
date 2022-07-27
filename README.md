@@ -12,7 +12,7 @@ Currently, **Rename** supports renaming specified files in a folder, including:
 ### Backup Files
 A copy of all files are copied to the `/prev_files` folder before renaming, allowing you to restore previous files, if required.
 
-### Specifying Files Using Regex
+### (Optional) Specifying Files Using Regex
 Instead of Renaming all files in a folder, you may wish to only apply the change to a select set of files.
 
 For example, 
