@@ -70,16 +70,18 @@ Are you looking to:
             break
 
 
-def add_prefix(files_folder=cwd, pattern="*.*"):
+def add_prefix(files_folder=cwd):
     while True:
         prefix = input("\nPlease enter the prefix to be added to the files: ")
 
         if prefix:
-            pattern = input(
+            pattern_input = input(
                 "\n(Optional) Please enter the pattern of files that will have this prefix (eg *.txt): "
             )
             backup_folder = backup_files(files_folder)
+
             os.chdir(files_folder)
+            pattern = pattern_input if pattern_input else "*.*"
             print(f"\nAdding prefix '{prefix}' to files...")
             [os.rename(f, f"{prefix}{f}") for f in glob(pattern) if os.path.isfile(f)]
             print("\tDone!")
