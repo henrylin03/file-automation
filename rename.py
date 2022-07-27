@@ -70,20 +70,23 @@ Are you looking to:
             break
 
 
-def add_prefix(files_folder=cwd):
-    print("\nPlease enter the prefix to be added to the files: ")
-    prefix = input()
-    print("\nPlease enter the pattern of files that will have this prefix (eg *.txt): ")
-    pattern = input()  ## what if I just want to apply to all files!
+def add_prefix(files_folder=cwd, pattern="*.*"):
+    while True:
+        prefix = input("\nPlease enter the prefix to be added to the files: ")
 
-    os.chdir(files_folder)
-    backup_folder = backup_files(files_folder)
+        if prefix:
+            pattern = input(
+                "\n(Optional) Please enter the pattern of files that will have this prefix (eg *.txt): "
+            )
+            backup_folder = backup_files(files_folder)
+            os.chdir(files_folder)
+            print(f"\nAdding prefix '{prefix}' to files...")
+            [os.rename(f, f"{prefix}{f}") for f in glob(pattern) if os.path.isfile(f)]
+            print("\tDone!")
 
-    print(f"\nAdding prefix '{prefix}' to files...")
-    [os.rename(f, f"{prefix}{f}") for f in glob(pattern)]
-    print("\tDone!")
+            delete_backup_files(backup_folder)
 
-    delete_backup_files(backup_folder)
+            break
 
 
 def del_prefix(files_folder=cwd):
