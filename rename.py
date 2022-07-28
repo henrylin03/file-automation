@@ -68,6 +68,8 @@ Are you looking to:
             del_prefix(files_folder)
         if prefix_choice.lower() in quit_choices:
             break
+        else:
+            print("\nSorry, I did not understand.")
 
 
 def add_prefix(files_folder=cwd):
@@ -76,7 +78,7 @@ def add_prefix(files_folder=cwd):
 
         if prefix:
             pattern_input = input(
-                "\n(Optional) Please enter the pattern of files that will have this prefix (eg *.txt): "
+                "\n(Optional) Please enter the pattern of files that will have this prefix (eg *.docx): "
             )
             backup_folder = backup_files(files_folder)
 
@@ -92,17 +94,25 @@ def add_prefix(files_folder=cwd):
 
 
 def del_prefix(files_folder=cwd):
-    prefix = input("\nPlease enter the prefix to be removed from the files: ")
+    while True:
+        prefix = input("\nPlease enter the prefix to be removed from the files: ")
 
-    os.chdir(files_folder)
-    backup_folder = backup_files(files_folder)
-
-    print(f"\nRemoving prefix '{prefix}' from files...")
-    files_list = next(os.walk(files_folder), (None, None, []))[2]
-    [os.rename(f, f.removeprefix(prefix)) for f in files_list]
-    print("\tDone!")
-
-    delete_backup_files(backup_folder)
+        if prefix:
+            pattern_input = input(
+                "\n(Optional) Please enter the pattern of files that will have this prefix removed (eg *.docx): "
+            )
+            backup_folder = backup_files(files_folder)
+            os.chdir(files_folder)
+            pattern = pattern_input if pattern_input else "*.*"
+            print(f"\nRemoving prefix '{prefix}' from files...")
+            [
+                os.rename(f, f.removeprefix(prefix))
+                for f in glob(pattern)
+                if os.path.isfile(f)
+            ]
+            print("\tDone!")
+            delete_backup_files(backup_folder)
+            break
 
 
 def create_test_files(folder=test_files_folder, file_count=10):
