@@ -28,9 +28,8 @@ def backup_files(files_folder=cwd):
 
 def delete_backup_files(backup_folder):
     backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
-    backup_files_count = len(
-        [f for f in os.listdir(backup_folder) if os.path.isfile(f)]
-    )
+    backup_files = [f for f in os.listdir(backup_folder) if os.path.isfile(f)]
+    backup_files_count = len(backup_files)
 
     while True:
         delete_response = input(
@@ -64,9 +63,9 @@ Are you looking to:
 
         if prefix_choice.lower() in add_choices:
             add_prefix(files_folder)
-        if prefix_choice.lower() in remove_choices:
+        elif prefix_choice.lower() in remove_choices:
             del_prefix(files_folder)
-        if prefix_choice.lower() in quit_choices:
+        elif prefix_choice.lower() in quit_choices:
             break
         else:
             print("\nSorry, I did not understand.")
@@ -75,22 +74,26 @@ Are you looking to:
 def add_prefix(files_folder=cwd):
     while True:
         prefix = input("\nPlease enter the prefix to be added to the files: ")
-
         if prefix:
-            pattern_input = input(
-                "\n(Optional) Please enter the pattern of files that will have this prefix (eg *.docx): "
-            )
-            backup_folder = backup_files(files_folder)
-
-            os.chdir(files_folder)
-            pattern = pattern_input if pattern_input else "*.*"
-            print(f"\nAdding prefix '{prefix}' to files...")
-            [os.rename(f, f"{prefix}{f}") for f in glob(pattern) if os.path.isfile(f)]
-            print("\tDone!")
-
-            delete_backup_files(backup_folder)
-
-            break
+            while True:
+                pattern_input = input(
+                    "\n(Optional) Please enter the pattern of files that will have this prefix (eg *.docx): "
+                )
+                pattern = pattern_input if pattern_input else "*.*"
+                os.chdir(files_folder)
+                affected_files = [f for f in glob(pattern) if os.path.isfile(f)]
+                if affected_files:
+                    backup_folder = backup_files(files_folder)
+                    print(
+                        f"\nAdding prefix '{prefix}' to {len(affected_files)} files..."
+                    )
+                    [os.rename(f, f"{prefix}{f}") for f in affected_files]
+                    print("\tDone!")
+                    delete_backup_files(backup_folder)
+                    break
+                else:
+                    print("\nThe pattern you have entered does not refer to any files.")
+        break
 
 
 def del_prefix(files_folder=cwd):
