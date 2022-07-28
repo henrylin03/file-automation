@@ -86,7 +86,7 @@ def add_prefix(files_folder=cwd):
             applied_files = [f for f in glob(pattern) if os.path.isfile(f)]
             print(f"\nAdding prefix '{prefix}' to {len(applied_files)} files...")
             [os.rename(f, f"{prefix}{f}") for f in applied_files]
-            print("\tDone!")
+            print("\n\tDone!")
             delete_backup_files(backup_folder)
             break
 
@@ -105,7 +105,7 @@ def del_prefix(files_folder=cwd):
             applied_files = [f for f in glob(pattern) if os.path.isfile(f)]
             print(f"\Removing prefix '{prefix}' from {len(applied_files)} files...")
             [os.rename(f, f.removeprefix(prefix)) for f in applied_files]
-            print("\tDone!")
+            print("\n\tDone!")
             delete_backup_files(backup_folder)
             break
 
