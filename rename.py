@@ -64,9 +64,9 @@ Are you looking to:
 
         if prefix_choice.lower() in add_choices:
             add_prefix(files_folder)
-        if prefix_choice.lower() in remove_choices:
+        elif prefix_choice.lower() in remove_choices:
             del_prefix(files_folder)
-        if prefix_choice.lower() in quit_choices:
+        elif prefix_choice.lower() in quit_choices:
             break
         else:
             print("\nSorry, I did not understand.")
@@ -81,15 +81,13 @@ def add_prefix(files_folder=cwd):
                 "\n(Optional) Please enter the pattern of files that will have this prefix (eg *.docx): "
             )
             backup_folder = backup_files(files_folder)
-
-            os.chdir(files_folder)
             pattern = pattern_input if pattern_input else "*.*"
-            print(f"\nAdding prefix '{prefix}' to files...")
-            [os.rename(f, f"{prefix}{f}") for f in glob(pattern) if os.path.isfile(f)]
+            os.chdir(files_folder)
+            applied_files = [f for f in glob(pattern) if os.path.isfile(f)]
+            print(f"\nAdding prefix '{prefix}' to {len(applied_files)} files...")
+            [os.rename(f, f"{prefix}{f}") for f in applied_files]
             print("\tDone!")
-
             delete_backup_files(backup_folder)
-
             break
 
 
@@ -102,14 +100,11 @@ def del_prefix(files_folder=cwd):
                 "\n(Optional) Please enter the pattern of files that will have this prefix removed (eg *.docx): "
             )
             backup_folder = backup_files(files_folder)
-            os.chdir(files_folder)
             pattern = pattern_input if pattern_input else "*.*"
-            print(f"\nRemoving prefix '{prefix}' from files...")
-            [
-                os.rename(f, f.removeprefix(prefix))
-                for f in glob(pattern)
-                if os.path.isfile(f)
-            ]
+            os.chdir(files_folder)
+            applied_files = [f for f in glob(pattern) if os.path.isfile(f)]
+            print(f"\Removing prefix '{prefix}' from {len(applied_files)} files...")
+            [os.rename(f, f.removeprefix(prefix)) for f in applied_files]
             print("\tDone!")
             delete_backup_files(backup_folder)
             break
