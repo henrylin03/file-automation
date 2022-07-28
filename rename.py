@@ -28,21 +28,19 @@ def backup_files(files_folder=cwd):
 
 def delete_backup_files(backup_folder):
     backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
-    backup_files_count = len(
-        [f for f in os.listdir(backup_folder) if os.path.isfile(f)]
-    )
+    backup_files_list = next(os.walk(backup_folder), (None, None, []))[2]
 
     while True:
         delete_response = input(
             "\nWe have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
         )
         if delete_response.lower() == "yes" or delete_response.lower() == "y":
-            print("\nDeleting previous files...")
+            print(f"\nDeleting previous files from /{backup_folder_name}...")
             shutil.rmtree(backup_folder)
-            print(f"\tDeleted {backup_files_count} files in {backup_folder_name}")
+            print(f"\n\t{len(backup_files_list)} files deleted!")
             break
         elif delete_response.lower() == "no" or delete_response.lower() == "n":
-            print("\nPrevious files are kept in the backup folder.")
+            print(f"\nPrevious files are kept in /{backup_folder_name}.")
             break
         else:
             print("\nSorry, I did not understand. Please try again.\n")
