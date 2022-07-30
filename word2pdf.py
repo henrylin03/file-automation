@@ -1,5 +1,4 @@
 from win32com import client
-import pythoncom
 import docx
 import os
 from pathlib import Path
