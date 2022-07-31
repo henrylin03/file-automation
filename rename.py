@@ -9,43 +9,6 @@ backup_parent_folder = os.path.join(cwd, "prev_files")
 test_files_folder = os.path.join(cwd, "test_files")
 
 
-def backup_files(files_folder=cwd):
-    datetime_suffix = time.strftime("%Y%m%d-%H%M%S")
-    backup_folder = os.path.join(backup_parent_folder, datetime_suffix)
-    backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
-    files_list = next(os.walk(files_folder), (None, None, []))[2]
-
-    print(f"\nBacking up all files to '{backup_folder_name}'...")
-
-    Path(backup_folder).mkdir(parents=True, exist_ok=True)
-    for f in files_list:
-        source = os.path.join(files_folder, f)
-        shutil.copy2(source, backup_folder)
-    print(f"\n\t{len(files_list)} files backed up!")
-
-    return backup_folder
-
-
-def delete_backup_files(backup_folder):
-    backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
-    backup_files_list = next(os.walk(backup_folder), (None, None, []))[2]
-
-    while True:
-        delete_response = input(
-            "\nWe have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
-        )
-        if delete_response.lower() == "yes" or delete_response.lower() == "y":
-            print(f"\nDeleting previous files from /{backup_folder_name}...")
-            shutil.rmtree(backup_folder)
-            print(f"\n\t{len(backup_files_list)} files deleted!")
-            break
-        elif delete_response.lower() == "no" or delete_response.lower() == "n":
-            print(f"\nPrevious files are kept in /{backup_folder_name}.")
-            break
-        else:
-            print("\nSorry, I did not understand. Please try again.\n")
-
-
 def prefix_triage(files_folder=cwd):
     while True:
         prefix_choice = input(
@@ -108,6 +71,43 @@ def del_prefix(files_folder=cwd):
             break
 
 
+def backup_files(files_folder=cwd):
+    datetime_suffix = time.strftime("%Y%m%d-%H%M%S")
+    backup_folder = os.path.join(backup_parent_folder, datetime_suffix)
+    backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
+    files_list = next(os.walk(files_folder), (None, None, []))[2]
+
+    print(f"\nBacking up all files to '{backup_folder_name}'...")
+
+    Path(backup_folder).mkdir(parents=True, exist_ok=True)
+    for f in files_list:
+        source = os.path.join(files_folder, f)
+        shutil.copy2(source, backup_folder)
+    print(f"\n\t{len(files_list)} files backed up!")
+
+    return backup_folder
+
+
+def delete_backup_files(backup_folder):
+    backup_folder_name = backup_folder.rsplit("\\", 1)[-1]
+    backup_files_list = next(os.walk(backup_folder), (None, None, []))[2]
+
+    while True:
+        delete_response = input(
+            "\nWe have now renamed your files. Would you like to delete your previous files? (Y/N)\n"
+        )
+        if delete_response.lower() == "yes" or delete_response.lower() == "y":
+            print(f"\nDeleting previous files from /{backup_folder_name}...")
+            shutil.rmtree(backup_folder)
+            print(f"\n\t{len(backup_files_list)} files deleted!")
+            break
+        elif delete_response.lower() == "no" or delete_response.lower() == "n":
+            print(f"\nPrevious files are kept in /{backup_folder_name}.")
+            break
+        else:
+            print("\nSorry, I did not understand. Please try again.\n")
+
+
 def create_test_files(folder=test_files_folder, file_count=10):
     test_input = input(
         "\nPress enter to create test files. Type 'skip' if you would like to skip.\n"
@@ -135,9 +135,11 @@ def create_test_files(folder=test_files_folder, file_count=10):
 
 def main():
     start_input = input("\nWelcome to Rename!\nPress enter to begin")
-    # if start_input == "test":
-    create_test_files()
-    prefix_triage(test_files_folder)
+    if start_input == "test":
+        create_test_files()
+        prefix_triage(test_files_folder)
+    else:
+        prefix_triage()
 
 
 if __name__ == "__main__":
