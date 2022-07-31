@@ -1,4 +1,4 @@
-# File Automation
+# File Automation 📁
 This repository holds Python apps I have built to automate file management.
 
 ## Table of Contents
