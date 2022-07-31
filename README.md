@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Rename
 Python app to quickly rename files in a folder.
 
@@ -32,3 +33,7 @@ If you want to test the code, type `test` on the starting page. This will genera
 
 ## Issues/Questions/Enhancements?
 If you have any questions, experienced any issues, and/or have any suggestions for enhancements, please raise a GitHub Issue and tag it. Thank you for your support!
+=======
+# Word2PDF
+Using Python, converting Word documents in a folder to individual PDFs with corresponding filenames.
+>>>>>>> two/main
